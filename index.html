@@ -1,0 +1,46 @@
+/******HTML*****/
+<div ng-app="myApp" ng-init="myCol='lightblue';myCol1=5;myCol2=3;" ng-controller="myCtrl" >
+    <p>Your shopify data is {{shopify}}</p>
+</div>
+
+
+/******controller********/
+app.controller('myCtrl',function($scope, shopifyService){
+  $scope.shopify = shopifyService.getShopify();
+});
+
+
+/****** this not working - i get that Access-Control-Origin error 
+		when i try it from localhost and this probably unhandled 
+		rejection error when i try on my file system without localhost
+		I have also tried hosting it on firebase but the cross-origin error still occurs
+		****/ 
+  // $http.get('https://5bdf3130f527c0505c87bb92f4b07d7d:eb3578f3922ec1a24defbb2425de824e@fidemall.myshopify.com/admin/products.json', {
+  //   headers: {'Authorization': '	Basic NWJkZjMxMzBmNTI3YzA1MDVjODdiYjkyZjRiMDdkN2Q6ZWIzNTc4ZjM5MjJlYzFhMjRkZWZiYjI0MjVkZTgyNGU='}
+  // }).then(function(response) {
+  //   console.log("Data - " + response.data);
+  //   console.log("statusText - " + response.statusText);
+  // });
+
+
+
+
+
+
+/****factory******/
+app.factory('shopifyService',function(){
+  return{
+    getShopify:function(){
+      var shopClient = ShopifyBuy.buildClient({
+        accessToken: '000566b4f42092e19319545a17d93526',
+        domain: 'fidemall.myshopify.com',
+        appId: '6'
+      });
+      return shopClient.fetchAllProducts().then((products) => {
+        // Do something with the products
+        console.log(products);
+        return products
+      });
+    }
+  }
+});`
